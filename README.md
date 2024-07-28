@@ -7,6 +7,7 @@ Learn adonisjs from [oficial documentation](https://docs.adonisjs.com/).
 - This is the boilerplate for the adonisjs project with swagger
 
 #### This boilerplate contains the following modules:
+
 - Authentication
 - Authorization
 - Swagger
@@ -55,12 +56,6 @@ npm run dev
 
 ```shell
 npm run build
-```
-
-#### Always run the command before committing the code to format all the files:
-
-```shell
-npm run dev:lint
 ```
 
 **HAPPY CODING :+1: :computer:**
