@@ -12,9 +12,8 @@ export default class ProductsController {
    * @paramQuery page - Page - @type(number)
    * @paramQuery limit - Per Page - @type(number)
    * @paramQuery search - Search - @type(string)
-   * @responseBody 200 - {"message": "string", "data": { "products":  "<Product[]>.paginated()" }} - Products list
+   * @responseBody 200 - {"message": "string", "data": { "products":  "<Product[]>.with(category).paginated()" }} - Products list
    * @responseBody 401 - {"message": "string"} - Unauthorized
-   * @responseBody 403 - {"message": "string"} - Forbidden
    * @responseBody 500 - {"message": "string"} - Internal server error
    *
    * Display a list of resource
@@ -49,10 +48,11 @@ export default class ProductsController {
   /**
    * @store
    * @summary Create a new product
-   * @requestBody {"category_uuid": "", "name": "", "excerpt": "", "description": "", "price": ""}
+   * @requestFormDataBody <productValidator>
    * @responseBody 204 -  - Product created
    * @responseBody 401 - {"message": "string"} - Unauthorized
    * @responseBody 403 - {"message": "string"} - Forbidden
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    *
    * Handle form submission for the create action
@@ -87,7 +87,7 @@ export default class ProductsController {
   /**
    * @show
    * @summary Show a product details
-   * @responseBody 200 - {"message": "string", "data": { "product":  "<Product>" }} - Product details
+   * @responseBody 200 - {"message": "string", "data": { "product":  "<Product>.with(category)" }} - Product details
    * @responseBody 401 - {"message": "string"} - Unauthorized
    * @responseBody 404 - {"message": "string"} - Not found
    * @responseBody 500 - {"message": "string"} - Internal server error
@@ -110,11 +110,12 @@ export default class ProductsController {
   /**
    * @update
    * @summary Update a product
-   * @requestBody {"category_uuid": "", "name": "", "excerpt": "", "description": "", "price": ""}
+   * @requestFormDataBody <productValidator>
    * @responseBody 204 -  - Product updated
    * @responseBody 401 - {"message": "string"} - Unauthorized
    * @responseBody 403 - {"message": "string"} - Forbidden
    * @responseBody 404 - {"message": "string"} - Not found
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    *
    * Handle form submission for the edit action

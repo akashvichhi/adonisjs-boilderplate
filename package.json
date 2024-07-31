@@ -60,7 +60,7 @@
     "@adonisjs/mail": "^9.2.2",
     "@adonisjs/static": "^1.1.1",
     "@vinejs/vine": "^2.1.0",
-    "adonis-autoswagger": "^3.59.0",
+    "adonis-autoswagger": "^3.61.0",
     "edge.js": "^6.0.2",
     "luxon": "^3.4.4",
     "moment": "^2.30.1",

@@ -44,10 +44,11 @@ export default class CategoriesController {
   /**
    * @store
    * @summary Create a new category
-   * @requestBody {"name": "", "description": ""}
+   * @requestFormDataBody <categoryValidator>
    * @responseBody 204 -  - Category created
    * @responseBody 401 - {"message": "string"} - Unauthorized
    * @responseBody 403 - {"message": "string"} - Forbidden
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    *
    * Handle form submission for the create action
@@ -64,11 +65,12 @@ export default class CategoriesController {
   /**
    * @update
    * @summary Update a category
-   * @requestBody {"name": "", "description": ""}
+   * @requestFormDataBody <categoryValidator>
    * @responseBody 204 -  - Category updated
    * @responseBody 401 - {"message": "string"} - Unauthorized
    * @responseBody 403 - {"message": "string"} - Forbidden
    * @responseBody 404 - {"message": "string"} - Not found
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    *
    * Handle form submission for the edit action

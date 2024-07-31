@@ -15,10 +15,9 @@ import { DateTime } from 'luxon'
 export default class AuthController {
   /**
    * @login
-   * @requestBody {"email": "", "password": ""}
+   * @requestFormDataBody <loginValidator>
    * @responseBody 200 - {"message": "string", "data": { "user": "<User>", "access_token": "string" }} - Successful login
-   * @responseBody 400 - {"message": "string"} - Invalid credentials
-   * @responseBody 422 - {"message": "string"} - Validation error
+   * @responseBody 422 - {"message": "string"} - Validation error or invalid credentials
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async login({ request, response }: HttpContext) {
@@ -26,7 +25,7 @@ export default class AuthController {
     const user = await User.verifyCredentials(payload.email, payload.password)
     await user.load('role')
     if (user.role.name !== UserRole.User) {
-      return response.badRequest({
+      return response.unprocessableEntity({
         message: 'Invalid credentials',
       })
     }
@@ -45,10 +44,9 @@ export default class AuthController {
    * @adminLogin
    * @summary Admin login
    * @description Admin login
-   * @requestBody {"email": "", "password": ""}
+   * @requestFormDataBody <loginValidator>
    * @responseBody 200 - {"message": "string", "data": { "user": "<User>", "access_token": "string" }} - Successful admin login
-   * @responseBody 400 - {"message": "string"} - Invalid credentials
-   * @responseBody 422 - {"message": "string"} - Validation error
+   * @responseBody 422 - {"message": "string"} - Validation error or invalid credentials
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async adminLogin({ request, response }: HttpContext) {
@@ -56,7 +54,7 @@ export default class AuthController {
     const user = await User.verifyCredentials(payload.email, payload.password)
     await user.load('role')
     if (user.role.name !== UserRole.Admin) {
-      return response.badRequest({
+      return response.unprocessableEntity({
         message: 'Invalid credentials',
       })
     }
@@ -73,10 +71,9 @@ export default class AuthController {
 
   /**
    * @register
-   * @requestBody {"name": "", "email": "", "password": ""}
+   * @requestFormDataBody <registerValidator>
    * @responseBody 201 - {"message": "string", "data": { "access_token": "string" }} - Successful registration
-   * @responseBody 400 - {"message": "string"} - Existing user
-   * @responseBody 422 - {"message": "string"} - Validation error
+   * @responseBody 422 - {"message": "string"} - Validation error or existing user
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async register({ request, response }: HttpContext) {
@@ -84,7 +81,7 @@ export default class AuthController {
 
     const exisistUser = await User.findBy('email', payload.email)
     if (exisistUser) {
-      return response.badRequest({
+      return response.unprocessableEntity({
         message: 'User already exists with this email address',
       })
     }
@@ -111,7 +108,6 @@ export default class AuthController {
    * @logout
    * @responseBody 200 - {"message": "string"} - Successful logout
    * @responseBody 401 - {"message": "string"} - Unauthorized
-   * @responseBody 403 - {"message": "string"} - Unauthorized
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async logout({ response, auth }: HttpContext) {
@@ -124,7 +120,7 @@ export default class AuthController {
 
   /**
    * @forgotPassword
-   * @requestBody {"email": ""}
+   * @requestFormDataBody <forgotPasswordValidator>
    * @responseBody 200 - {"message": "string", "data": { "password_reset_token": "string" }} - Successful reset token generated
    * @responseBody 404 - {"message": "string"} - User not found
    * @responseBody 422 - {"message": "string"} - Validation error
@@ -154,17 +150,16 @@ export default class AuthController {
 
   /**
    * @resetPassword
-   * @requestBody {"token": "", "password": ""}
+   * @requestFormDataBody <resetPasswordValidator>
    * @responseBody 200 - {"message": "string"} - Successful reset password
-   * @responseBody 400 - {"message": "string"} - Invalid password reset token
-   * @responseBody 422 - {"message": "string"} - Validation error
+   * @responseBody 422 - {"message": "string"} - Validation error or invalid password reset token
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async resetPassword({ request, response }: HttpContext) {
     const payload = await request.validateUsing(resetPasswordValidator)
     const passwordReset = await PasswordReset.findBy('token', payload.token)
     if (!passwordReset || passwordReset.createdAt < DateTime.now().minus({ minutes: 15 })) {
-      return response.badRequest({
+      return response.unprocessableEntity({
         message: 'Invalid password reset token',
       })
     }
