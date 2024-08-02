@@ -9,8 +9,11 @@
 |
 */
 
-import 'reflect-metadata'
+import env from '#start/env'
 import { Ignitor, prettyPrintError } from '@adonisjs/core'
+import http from 'node:http'
+import https from 'node:https'
+import 'reflect-metadata'
 
 /**
  * URL to the application root. AdonisJS need it to resolve
@@ -44,7 +47,22 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
     })
   })
   .httpServer()
-  .start()
+  .start((handler) => {
+    const isHttpsEnable = env.get('IS_HTTPS_ENABLE')
+    if (isHttpsEnable) {
+      const keyFile = env.get('HTTPS_KEY_FILE')
+      const crtFile = env.get('HTTPS_CERT_FILE')
+
+      return https.createServer(
+        {
+          key: keyFile,
+          cert: crtFile,
+        },
+        handler
+      )
+    }
+    return http.createServer({}, handler)
+  })
   .catch((error) => {
     process.exitCode = 1
     prettyPrintError(error)
