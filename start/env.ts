@@ -47,4 +47,8 @@ export default await Env.create(new URL('../', import.meta.url), {
   IS_HTTPS_ENABLE: Env.schema.boolean.optional(),
   HTTPS_KEY_FILE: Env.schema.string.optional(),
   HTTPS_CERT_FILE: Env.schema.string.optional(),
+
+  REDIS_HOST: Env.schema.string.optional({ format: 'host' }),
+  REDIS_PORT: Env.schema.number.optional(),
+  REDIS_PASSWORD: Env.schema.string.optional(),
 })

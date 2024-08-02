@@ -14,6 +14,7 @@ Learn adonisjs from [oficial documentation](https://docs.adonisjs.com/).
 - Logger
 - Web Socket
 - Cron jobs
+- Redis
 
 ### Prerequisites
 
