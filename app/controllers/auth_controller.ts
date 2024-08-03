@@ -17,7 +17,8 @@ export default class AuthController {
    * @login
    * @requestFormDataBody <loginValidator>
    * @responseBody 200 - {"message": "string", "data": { "user": "<User>", "access_token": "string" }} - Successful login
-   * @responseBody 422 - {"message": "string"} - Validation error or invalid credentials
+   * @responseBody 400 - {"message": "string"} - Invalid credentials
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async login({ request, response }: HttpContext) {
@@ -46,7 +47,8 @@ export default class AuthController {
    * @description Admin login
    * @requestFormDataBody <loginValidator>
    * @responseBody 200 - {"message": "string", "data": { "user": "<User>", "access_token": "string" }} - Successful admin login
-   * @responseBody 422 - {"message": "string"} - Validation error or invalid credentials
+   * @responseBody 400 - {"message": "string"} - Invalid credentials
+   * @responseBody 422 - {"message": "string"} - Validation error
    * @responseBody 500 - {"message": "string"} - Internal server error
    */
   async adminLogin({ request, response }: HttpContext) {
