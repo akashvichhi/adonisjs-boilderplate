@@ -12,7 +12,8 @@
     "test": "node ace test",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "deploy": "npm run build && cp .env build/.env && pm2 start build/bin/server.js"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
