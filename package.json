@@ -1,9 +1,14 @@
 {
-  "name": "demo",
+  "name": "adonisjs-boilerplate",
   "version": "1.0.0",
-  "private": true,
+  "description": "A boilerplate for AdonisJS web framework",
   "type": "module",
-  "license": "UNLICENSED",
+  "author": "Akash Vichhi <akashvichhi@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akashvichhi/adonisjs-boilerplate"
+  },
+  "license": "MIT",
   "scripts": {
     "start": "node bin/server.js",
     "build": "node ace build",
