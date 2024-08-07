@@ -44,9 +44,13 @@ router
   })
   .prefix('/api')
 
-router.get('/swagger', async () => {
-  return AutoSwagger.default.docs(router.toJSON(), swagger)
-})
-router.get('/docs', async () => {
-  return AutoSwagger.default.ui('/swagger', swagger)
-})
+router
+  .group(() => {
+    router.get('/swagger', async () => {
+      return AutoSwagger.default.docs(router.toJSON(), swagger)
+    })
+    router.get('/docs', async () => {
+      return AutoSwagger.default.ui('/swagger', swagger)
+    })
+  })
+  .middleware(middleware.swaggerAuth())

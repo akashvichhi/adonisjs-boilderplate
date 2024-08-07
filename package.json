@@ -18,7 +18,9 @@
     "lint": "eslint . --fix",
     "format": "prettier --write .",
     "tsc": "tsc --noEmit",
-    "deploy": "npm run build && cp .env build/.env && pm2 start build/bin/server.js"
+    "swagger:generate": "node ace swagger:generate",
+    "swagger:generate:build": "node ace swagger:generate && cp swagger.yml build/swagger.yml",
+    "deploy": "npm run build && cp .env build/.env && npm run swagger:generate:build && pm2 start build/bin/server.js"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -70,6 +72,7 @@
     "adonis-autoswagger": "^3.61.0",
     "adonisjs-scheduler": "^1.0.5",
     "edge.js": "^6.0.2",
+    "js-base64": "^3.7.7",
     "luxon": "^3.4.4",
     "moment": "^2.30.1",
     "mysql2": "^3.10.0",

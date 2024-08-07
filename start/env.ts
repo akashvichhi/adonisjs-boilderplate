@@ -52,4 +52,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   REDIS_HOST: Env.schema.string.optional({ format: 'host' }),
   REDIS_PORT: Env.schema.number.optional(),
   REDIS_PASSWORD: Env.schema.string.optional(),
+
+  SWAGGER_USERNAME: Env.schema.string.optional(),
+  SWAGGER_PASSWORD: Env.schema.string.optional(),
 })
